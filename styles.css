@@ -1,0 +1,166 @@
+/* Global Styles */
+
+html {
+  background-color: rgb(255, 255, 255);
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto";
+}
+
+/* Header Styles */
+
+header img {
+  width: 100px;
+}
+
+header h1 {
+  text-align: center;
+  font-style: medium;
+  font-weight: 500;
+  color: #0098df;
+  width: 20%;
+  margin: auto;
+  border: 2px solid white;
+  padding: 10px;
+  border-radius: 20px 20px 0 0;
+  border-bottom: 0px;
+  background-color: rgb(44, 44, 44);
+}
+
+/* Body Styles */
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.ctd-container {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid black;
+  background: #e0e0e0;
+  align-items: center;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.radio-buttons-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  padding: 0 0 20px 0;
+}
+
+.radio-buttons-container h3 {
+  margin: 0 0 5px 0;
+  padding: 0;
+  font-size: 20px;
+}
+
+.radio-buttons-container label {
+  font-size: 20px;
+}
+
+.radio-buttons-container label:hover {
+  color: #0183bf;
+}
+
+.radio-buttons-container input[type="radio"] {
+  margin: 10px 0 10px 10px;
+  width: 15px;
+  height: 15px;
+}
+
+.number-input-container {
+  border-top: 1px solid white;
+  padding-top: 15px;
+}
+
+.number-input-container label {
+  font-size: 20px;
+  margin-right: 20px;
+}
+
+.number-input-container input[type="number"] {
+  font-size: 20px;
+  width: 70px;
+  cursor: pointer;
+}
+
+.number-input-container input[type="number"]:focus {
+  color: #0183bf;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+button {
+  margin: 30px 0 0 0;
+  padding: 10px 20px;
+  font-weight: medium;
+  font-size: 15px;
+  color: rgb(255, 255, 255);
+  background-color: #0183bf;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #01a1eb;
+  transition: 0.3s ease;
+}
+
+h2 {
+  padding: 0;
+  margin: 20px 0 0 0;
+}
+
+.outputs-container {
+  margin: 0;
+  width: 100%;
+  border: 1px solid rgb(255, 255, 255);
+  padding: 0 15px 0 15px;
+  background: rgba(255, 255, 255, 0.911);
+  width: 90%;
+}
+
+.outputs-container p {
+  color: rgb(240, 1, 1);
+  font-weight: bold;
+  font-size: 1.17em;
+  font-style: italic;
+}
+
+.a-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.b-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.c-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.d-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.e-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.f-container {
+  display: flex;
+  justify-content: space-between;
+}
