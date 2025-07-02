@@ -52,6 +52,12 @@ function calculateResults() {
     // Perform Calculations
     containerEmptyWeight = containerType.value === "tote" ? 445 : 3;
     waterWeight = containerAndWaterWeight - containerEmptyWeight;
+
+    if (waterWeight < 0) {
+      alert("Container weight is too low for selected container type.");
+      return;
+    }
+
     numberOfGallons = (waterWeight / 8.34).toFixed(2);
     chemical = (
       numberOfGallons * (chemicalType.value === "0300" ? 0.67 : 0.1)

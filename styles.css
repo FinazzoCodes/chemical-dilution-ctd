@@ -5,6 +5,12 @@ html {
   margin: 0;
   padding: 0;
   font-family: "Roboto";
+  box-sizing: border-box;
+}
+*,
+*:before,
+*after {
+  box-sizing: inherit;
 }
 
 /* Header Styles */
@@ -15,7 +21,6 @@ header img {
 
 header h1 {
   text-align: center;
-  font-style: medium;
   font-weight: 500;
   color: #0098df;
   width: 20%;
@@ -135,32 +140,7 @@ h2 {
   font-style: italic;
 }
 
-.a-container {
-  display: flex;
-  justify-content: space-between;
-}
-
-.b-container {
-  display: flex;
-  justify-content: space-between;
-}
-
-.c-container {
-  display: flex;
-  justify-content: space-between;
-}
-
-.d-container {
-  display: flex;
-  justify-content: space-between;
-}
-
-.e-container {
-  display: flex;
-  justify-content: space-between;
-}
-
-.f-container {
+.outputs-container > div {
   display: flex;
   justify-content: space-between;
 }
