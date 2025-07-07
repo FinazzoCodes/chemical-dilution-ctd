@@ -1,20 +1,22 @@
-/* Global Styles */
-
+/* ---------------------------------------
+   Global Reset & Base Styles
+---------------------------------------- */
 html {
-  background-color: rgb(255, 255, 255);
+  background-color: #ffffff;
   margin: 0;
   padding: 0;
   font-family: "Roboto";
   box-sizing: border-box;
 }
 *,
-*:before,
-*after {
+*::before,
+*::after {
   box-sizing: inherit;
 }
 
-/* Header Styles */
-
+/* ---------------------------------------
+   Header Styles
+---------------------------------------- */
 header img {
   width: 100px;
 }
@@ -22,18 +24,20 @@ header img {
 header h1 {
   text-align: center;
   font-weight: 500;
-  color: #0098df;
+  color: #f04323; /* Rockline orange */
   width: 20%;
   margin: auto;
   border: 2px solid white;
   padding: 10px;
   border-radius: 20px 20px 0 0;
-  border-bottom: 0px;
+  border-bottom: 0;
   background-color: rgb(44, 44, 44);
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-/* Body Styles */
-
+/* ---------------------------------------
+   Main Container Styles
+---------------------------------------- */
 .wrapper {
   display: flex;
   justify-content: center;
@@ -42,24 +46,86 @@ header h1 {
 .ctd-container {
   display: flex;
   flex-direction: column;
-  border: 2px solid black;
-  background: #e0e0e0;
   align-items: center;
+  border: 2px solid rgb(44, 44, 44);
+  background: #e0e0e0;
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.5s ease, border-color 0.5s ease,
+    color 0.5s ease;
 }
 
+/* ---------------------------------------
+   Toggle Switch
+---------------------------------------- */
+.calc-toggle-switch {
+  position: relative;
+  width: 200px;
+  height: 50px;
+  background: #333;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  user-select: none;
+  margin-bottom: 30px;
+}
+
+.switch-slider {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 94px;
+  height: 44px;
+  background: #01a1eb;
+  box-shadow: 0 0 10px #01a1eb;
+  border-radius: 50px;
+  transition: left 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  z-index: 0;
+}
+
+.calc-toggle-switch span {
+  z-index: 1;
+  transition: color 0.3s ease;
+}
+
+/* Toggle active state */
+.calc-toggle-switch.active .switch-slider {
+  left: 103px;
+}
+
+/* Toggle text colors */
+.calc-toggle-switch .label-left-default {
+  color: #ffffff;
+}
+.calc-toggle-switch .label-right-zorro {
+  color: #888888;
+}
+.calc-toggle-switch.active .label-left-default {
+  color: #888888;
+}
+.calc-toggle-switch.active .label-right-zorro {
+  color: #ffffff;
+}
+
+/* ---------------------------------------
+   Form Inputs & Radio Buttons
+---------------------------------------- */
 .radio-buttons-container {
   display: flex;
   width: 100%;
   justify-content: space-around;
-  padding: 0 0 20px 0;
+  padding-bottom: 20px;
 }
 
 .radio-buttons-container h3 {
-  margin: 0 0 5px 0;
-  padding: 0;
+  margin-bottom: 5px;
   font-size: 20px;
 }
 
@@ -97,6 +163,9 @@ header h1 {
   color: #0183bf;
 }
 
+/* ---------------------------------------
+   Buttons
+---------------------------------------- */
 .buttons-container {
   display: flex;
   justify-content: center;
@@ -104,43 +173,93 @@ header h1 {
 }
 
 button {
-  margin: 30px 0 0 0;
+  margin-top: 30px;
   padding: 10px 20px;
-  font-weight: medium;
   font-size: 15px;
-  color: rgb(255, 255, 255);
+  color: #ffffff;
   background-color: #0183bf;
   border: 2px solid black;
   border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
 }
 
 button:hover {
   background-color: #01a1eb;
-  transition: 0.3s ease;
 }
 
+/* ---------------------------------------
+   Results Output Container
+---------------------------------------- */
 h2 {
-  padding: 0;
-  margin: 20px 0 0 0;
+  margin-top: 20px;
 }
 
 .outputs-container {
-  margin: 0;
-  width: 100%;
-  border: 1px solid rgb(255, 255, 255);
-  padding: 0 15px 0 15px;
-  background: rgba(255, 255, 255, 0.911);
   width: 90%;
-}
-
-.outputs-container p {
-  color: rgb(240, 1, 1);
-  font-weight: bold;
-  font-size: 1.17em;
-  font-style: italic;
+  border: 1px solid #ffffff;
+  padding: 0 15px;
+  background: rgba(255, 255, 255, 0.911);
+  transition: background-color 0.5s ease, border-color 0.5s ease,
+    color 0.5s ease;
 }
 
 .outputs-container > div {
   display: flex;
   justify-content: space-between;
+}
+
+.outputs-container p {
+  color: #f04323;
+  font-weight: bold;
+  font-size: 1.17em;
+  font-style: italic;
+}
+
+/* ---------------------------------------
+   Zorro Mode Overrides (Dark + Neon Blue)
+---------------------------------------- */
+body.zorro-mode header h1 {
+  background: #1a1a1a;
+  color: #e0e0e0;
+}
+
+body.zorro-mode .ctd-container {
+  background: #1a1a1a;
+  border: 2px solid #00b3ff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  color: #e0e0e0;
+}
+
+body.zorro-mode .calc-toggle-switch {
+  background: #333;
+}
+
+body.zorro-mode .calc-toggle-switch.active .switch-slider {
+  background: #74d242;
+  box-shadow: 0 0 10px #74d242;
+}
+
+body.zorro-mode .calc-toggle-switch .label-left-default {
+  color: #888;
+}
+
+body.zorro-mode .outputs-container {
+  background: #222;
+  border: 1px solid #00b3ff;
+}
+
+body.zorro-mode .outputs-container p {
+  color: #74d242;
+}
+
+body.zorro-mode .buttons-container button {
+  background-color: #1a1a1a;
+  border-color: #00b3ff;
+  color: #00b3ff;
+}
+
+body.zorro-mode .buttons-container button:hover {
+  background-color: #00b3ff;
+  color: #1a1a1a;
 }

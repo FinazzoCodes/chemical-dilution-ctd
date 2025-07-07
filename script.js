@@ -7,9 +7,27 @@ document.addEventListener("DOMContentLoaded", function () {
   resetButton.addEventListener("click", resetAll);
 });
 
+const modeToggle = document.getElementById("modeToggle");
 const chemical3363 = document.getElementById("3363");
 const chemical0300 = document.getElementById("0300");
+let calculationMode = "default";
 let chemicalUnit = "";
+
+modeToggle.addEventListener("click", () => {
+  calculationMode = calculationMode === "default" ? "zorro" : "default";
+  modeToggle.classList.toggle("active");
+  document.body.classList.toggle("zorro-mode", calculationMode === "zorro");
+  resetOutput();
+  updateModeLabels();
+});
+
+function updateModeLabels() {
+  if (calculationMode === "zorro") {
+    document.querySelector("header h1").innerHTML = "Zorro Blending CTD";
+  } else {
+    document.querySelector("header h1").innerHTML = "Chemical Dilution CTD";
+  }
+}
 
 chemical3363.addEventListener("change", () => {
   if (chemical3363.checked) {
@@ -49,22 +67,38 @@ function calculateResults() {
 
   // Validation check
   if (containerType && chemicalType && !isNaN(containerAndWaterWeight)) {
-    // Perform Calculations
-    containerEmptyWeight = containerType.value === "tote" ? 445 : 3;
-    waterWeight = containerAndWaterWeight - containerEmptyWeight;
+    // Perform Calculations for default
+    if (calculationMode === "default") {
+      containerEmptyWeight = containerType.value === "tote" ? 455 : 3;
+      waterWeight = containerAndWaterWeight - containerEmptyWeight;
+      if (waterWeight < 0) {
+        alert("Container weight is too low for selected container type.");
+        return;
+      }
 
-    if (waterWeight < 0) {
-      alert("Container weight is too low for selected container type.");
-      return;
+      numberOfGallons = (waterWeight / 8.34).toFixed(2);
+      chemical = (
+        numberOfGallons * (chemicalType.value === "0300" ? 0.67 : 0.1)
+      ).toFixed(2);
+      chemicalAddition = (
+        chemical * (chemicalType.value === "0300" ? 29.6 : 3785)
+      ).toFixed(2);
+    } else {
+      // Zorro calculations
+      containerEmptyWeight = containerType.value === "tote" ? 455 : 3;
+      waterWeight = containerAndWaterWeight - containerEmptyWeight;
+      if (waterWeight < 0) {
+        alert("Container weight is too low for selected container type.");
+        return;
+      }
+      numberOfGallons = (waterWeight / 8.34).toFixed(2);
+      chemical = (
+        numberOfGallons * (chemicalType.value === "0300" ? 0.01067 : 0.016)
+      ).toFixed(2);
+      chemicalAddition = (
+        chemical * (chemicalType.value === "0300" ? 29.6 : 3785)
+      ).toFixed(2);
     }
-
-    numberOfGallons = (waterWeight / 8.34).toFixed(2);
-    chemical = (
-      numberOfGallons * (chemicalType.value === "0300" ? 0.67 : 0.1)
-    ).toFixed(2);
-    chemicalAddition = (
-      chemical * (chemicalType.value === "0300" ? 29.6 : 3785)
-    ).toFixed(2);
 
     // Display results
     document.querySelector(".a-container p").innerHTML =
