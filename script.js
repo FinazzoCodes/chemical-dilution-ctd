@@ -1,5 +1,9 @@
+/**
+ * Waits for the entire DOM to load before attaching event listeners.
+ * Ensures that all elements are accessible when scripts run.
+ */
 document.addEventListener("DOMContentLoaded", function () {
-  // Wait for the document to be fully loaded
+  // Setup event listeners for Calculate and Reset buttons
   const calculateButton = document.querySelector(".calc-btn");
   calculateButton.addEventListener("click", calculateResults);
 
@@ -7,28 +11,41 @@ document.addEventListener("DOMContentLoaded", function () {
   resetButton.addEventListener("click", resetAll);
 });
 
+// Global references and default states
 const modeToggle = document.getElementById("modeToggle");
 const chemical3363 = document.getElementById("3363");
 const chemical0300 = document.getElementById("0300");
-let calculationMode = "default";
-let chemicalUnit = "";
+let calculationMode = "default"; // Holds the current mode (default or zorro)
+let chemicalUnit = ""; // Will dynamically set to 'gal' or 'lbs'
 
+// Toggle switch for calculation mode (Default <-> Zorro)
 modeToggle.addEventListener("click", () => {
+  // Toggle between modes
   calculationMode = calculationMode === "default" ? "zorro" : "default";
+
+  // Update UI to reflect active toggle state and mode styling
   modeToggle.classList.toggle("active");
   document.body.classList.toggle("zorro-mode", calculationMode === "zorro");
+
+  // Reset outputs and update heading based on selected mode
   resetOutput();
   updateModeLabels();
 });
 
+// Updates the main heading label based on the selected calculation mode.
 function updateModeLabels() {
   if (calculationMode === "zorro") {
-    document.querySelector("header h1").innerHTML = "Zorro Blending CTD";
+    document.querySelector("header h1").innerHTML =
+      "Chemical Blending CTD Zorro";
   } else {
     document.querySelector("header h1").innerHTML = "Chemical Dilution CTD";
   }
 }
 
+/**
+ * Event listeners to update chemical addition label and unit
+ * whenever the user selects a different chemical type.
+ */
 chemical3363.addEventListener("change", () => {
   if (chemical3363.checked) {
     document.querySelector(".f-container h3").innerHTML =
@@ -47,8 +64,12 @@ chemical0300.addEventListener("change", () => {
   }
 });
 
+/**
+ * Main function that performs the calculations and updates the UI
+ * based on user inputs and the selected mode (default or zorro).
+ */
 function calculateResults() {
-  // Get user input values
+  // Get selected container and chemical types from user
   const containerType = document.querySelector(
     "input[name='container_type']:checked"
   );
@@ -59,24 +80,31 @@ function calculateResults() {
     document.getElementById("input").value
   );
 
+  // Declare local variables for calculation
   let containerEmptyWeight;
   let waterWeight;
   let numberOfGallons;
   let chemical;
   let chemicalAddition;
 
-  // Validation check
+  // Validate input: ensure user selected options and entered a valid weight
   if (containerType && chemicalType && !isNaN(containerAndWaterWeight)) {
-    // Perform Calculations for default
-    if (calculationMode === "default") {
-      containerEmptyWeight = containerType.value === "tote" ? 455 : 3;
-      waterWeight = containerAndWaterWeight - containerEmptyWeight;
-      if (waterWeight < 0) {
-        alert("Container weight is too low for selected container type.");
-        return;
-      }
+    // Assign empty container weight based on selected type
+    containerEmptyWeight = containerType.value === "tote" ? 455 : 3;
+    // Calculate water weight by subtracting container weight
+    waterWeight = containerAndWaterWeight - containerEmptyWeight;
 
-      numberOfGallons = (waterWeight / 8.34).toFixed(2);
+    // Safety check: ensure water weight is not negative
+    if (waterWeight < 0) {
+      alert("Container weight is too low for selected container type.");
+      return;
+    }
+
+    // Convert water weight (lbs) to gallons (8.34 lbs per gallon)
+    numberOfGallons = (waterWeight / 8.34).toFixed(2);
+
+    // Calculate chemical quantity based on selected mode and chemical type
+    if (calculationMode === "default") {
       chemical = (
         numberOfGallons * (chemicalType.value === "0300" ? 0.67 : 0.1)
       ).toFixed(2);
@@ -84,20 +112,11 @@ function calculateResults() {
         chemical * (chemicalType.value === "0300" ? 29.6 : 3785)
       ).toFixed(2);
     } else {
-      // Zorro calculations
-      containerEmptyWeight = containerType.value === "tote" ? 455 : 3;
-      waterWeight = containerAndWaterWeight - containerEmptyWeight;
-      if (waterWeight < 0) {
-        alert("Container weight is too low for selected container type.");
-        return;
-      }
-      numberOfGallons = (waterWeight / 8.34).toFixed(2);
+      // Zorro blending ratios
       chemical = (
         numberOfGallons * (chemicalType.value === "0300" ? 0.01067 : 0.016)
       ).toFixed(2);
-      chemicalAddition = (
-        chemical * (chemicalType.value === "0300" ? 29.6 : 3785)
-      ).toFixed(2);
+      chemicalAddition = (chemical * 3785).toFixed(2);
     }
 
     // Display results
@@ -117,27 +136,30 @@ function calculateResults() {
   }
 }
 
+/**
+ * Resets all form inputs and clears output containers to start fresh.
+ */
 function resetAll() {
-  // Reset radios
+  // Uncheck all container type radio buttons
   const containerTypeRadios = document.querySelectorAll(
     "input[name='container_type']"
   );
-  const chemicalTypeRadios = document.querySelectorAll(
-    "input[name='chemical_type']"
-  );
-
   containerTypeRadios.forEach((radio) => {
     radio.checked = false;
   });
 
+  // Uncheck all chemical type radio buttons
+  const chemicalTypeRadios = document.querySelectorAll(
+    "input[name='chemical_type']"
+  );
   chemicalTypeRadios.forEach((radio) => {
     radio.checked = false;
   });
 
-  // Reset number input
+  // Clear number input field
   document.getElementById("input").value = "";
 
-  // Reset output
+  // Reset all outputs and restore default chemical label
   document.querySelector(".a-container p").innerHTML = "";
   document.querySelector(".b-container p").innerHTML = "";
   document.querySelector(".c-container p").innerHTML = "";
@@ -147,6 +169,10 @@ function resetAll() {
   document.querySelector(".f-container h3").innerHTML = "Chemical Addition:";
 }
 
+/**
+ * Clears only the output containers. Used when switching modes or chemicals
+ * to ensure no misleading data remains visible.
+ */
 function resetOutput() {
   document.querySelector(".a-container p").innerHTML = "";
   document.querySelector(".b-container p").innerHTML = "";
