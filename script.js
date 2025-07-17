@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
 const modeToggle = document.getElementById("modeToggle");
 const chemical3363 = document.getElementById("3363");
 const chemical0300 = document.getElementById("0300");
+const chemicalCip100 = document.getElementById("cip100");
 let calculationMode = "default"; // Holds the current mode (default or zorro)
 let chemicalUnit = ""; // Will dynamically set to 'gal' or 'lbs'
 
@@ -64,6 +65,15 @@ chemical0300.addEventListener("change", () => {
   }
 });
 
+chemicalCip100.addEventListener("change", () => {
+  if (chemicalCip100.checked) {
+    document.querySelector(".f-container h3").innerHTML =
+      "CIP-100 Chemical Addition: ";
+    chemicalUnit = " gal";
+    resetOutput();
+  }
+});
+
 /**
  * Main function that performs the calculations and updates the UI
  * based on user inputs and the selected mode (default or zorro).
@@ -105,18 +115,22 @@ function calculateResults() {
 
     // Calculate chemical quantity based on selected mode and chemical type
     if (calculationMode === "default") {
-      chemical = (
-        numberOfGallons * (chemicalType.value === "0300" ? 0.67 : 0.1)
-      ).toFixed(2);
-      chemicalAddition = (
-        chemical * (chemicalType.value === "0300" ? 29.6 : 3785)
-      ).toFixed(2);
-    } else {
-      // Zorro blending ratios
-      chemical = (
-        numberOfGallons * (chemicalType.value === "0300" ? 0.01067 : 0.016)
-      ).toFixed(2);
-      chemicalAddition = (chemical * 3785).toFixed(2);
+      let chemicalMultiplier;
+      let additionMultiplier;
+
+      if (chemicalType.value === "3363") {
+        chemicalMultiplier = 0.1;
+        additionMultiplier = 3785;
+      } else if (chemicalType.value === "0300") {
+        chemicalMultiplier = 0.67;
+        additionMultiplier = 29.6;
+      } else if (chemicalType.value === "cip100") {
+        chemicalMultiplier = 0.0125;
+        additionMultiplier = 3785;
+      }
+
+      chemical = (numberOfGallons * chemicalMultiplier).toFixed(2);
+      chemicalAddition = (chemical * additionMultiplier).toFixed(2);
     }
 
     // Display results
