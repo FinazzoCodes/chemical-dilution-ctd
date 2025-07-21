@@ -131,6 +131,17 @@ function calculateResults() {
 
       chemical = (numberOfGallons * chemicalMultiplier).toFixed(2);
       chemicalAddition = (chemical * additionMultiplier).toFixed(2);
+    } else if (calculationMode === "zorro") {
+      let chemicalMultiplier;
+      let additionMultiplier = 3785;
+
+      if (chemicalType.value === "3363") {
+        chemicalMultiplier = 0.016;
+      } else if (chemicalType.value === "0300") {
+        chemicalMultiplier = 0.01067;
+      }
+      chemical = (numberOfGallons * chemicalMultiplier).toFixed(2);
+      chemicalAddition = (chemical * additionMultiplier).toFixed(2);
     }
 
     // Display results
