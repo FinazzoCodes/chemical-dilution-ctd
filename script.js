@@ -100,7 +100,13 @@ function calculateResults() {
   // Validate input: ensure user selected options and entered a valid weight
   if (containerType && chemicalType && !isNaN(containerAndWaterWeight)) {
     // Assign empty container weight based on selected type
-    containerEmptyWeight = containerType.value === "tote" ? 455 : 3;
+    if (containerType.value === "tote") {
+      containerEmptyWeight = 445;
+    } else if (containerType.value === "carboy") {
+      containerEmptyWeight = 3;
+    } else {
+      containerEmptyWeight = 50;
+    }
     // Calculate water weight by subtracting container weight
     waterWeight = containerAndWaterWeight - containerEmptyWeight;
 
