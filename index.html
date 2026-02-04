@@ -1,115 +1,115 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chemical Dilution CTD</title>
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="64x64" href="favicon.png" />
     <link rel="stylesheet" href="styles.css" />
-    <!--Fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
       rel="stylesheet"
     />
   </head>
+
   <body>
     <header>
-      <h1>Chemical Dilution CTD</h1>
+      <h1 id="appTitle">Chemical Dilution CTD (MT-17)</h1>
     </header>
+
     <div class="wrapper">
       <div class="ctd-container">
-        <!--Allows user to switch calculator type-->
-        <div class="calc-toggle-switch" id="modeToggle">
+        <!-- Mode Toggle -->
+        <div class="calc-toggle-switch" id="modeToggle" role="switch" aria-checked="false">
           <div class="switch-slider"></div>
-          <span class="label-left-default">Default</span>
-          <span class="label-right-zorro">Zorro</span>
+          <span class="label-left-default">MT-17</span>
+          <span class="label-right-zorro">MT-25/26</span>
         </div>
 
+        <!-- Inputs -->
         <div class="inputs-container">
           <div class="radio-buttons-container">
             <div class="container-type">
-              <h3>Container Type</h3>
-              <input
-                type="radio"
-                id="tote"
-                name="container_type"
-                value="tote"
-              />
-              <label for="tote">Tote</label>
-              <br />
-              <input
-                type="radio"
-                id="carboy"
-                name="container_type"
-                value="carboy"
-              />
-              <label for="carboy">Carboy</label>
-              <br />
-              <input
-                type="radio"
-                id="foamer"
-                name="container_type"
-                value="foamer"
-              />
+              <h3>Select Container</h3>
+
+              <input type="radio" id="steelTote" name="container" value="steelTote" />
+              <label for="steelTote">Steel Tote</label><br />
+
+              <input type="radio" id="plasticTote" name="container" value="plasticTote" />
+              <label for="plasticTote">Plastic Tote</label><br />
+
+              <input type="radio" id="carboy" name="container" value="carboy" />
+              <label for="carboy">Carboy</label><br />
+
+              <input type="radio" id="foamer" name="container" value="foamer" />
               <label for="foamer">Foamer</label>
             </div>
+
             <div class="chemical-type">
-              <h3>Chemical Type</h3>
-              <input type="radio" id="3363" name="chemical_type" value="3363" />
-              <label for="3363">3363 Soap</label>
-              <br />
-              <input type="radio" id="0300" name="chemical_type" value="0300" />
-              <label for="0300">0300 Sanitizer</label>
-              <br />
-              <input
-                type="radio"
-                id="cip100"
-                name="chemical_type"
-                value="cip100"
-              />
+              <h3>Select Chemical</h3>
+
+              <input type="radio" id="3363" name="chemical" value="3363" />
+              <label for="3363">3363 Soap</label><br />
+
+              <input type="radio" id="0300" name="chemical" value="0300" />
+              <label for="0300">0300 Sanitizer</label><br />
+
+              <input type="radio" id="cip100" name="chemical" value="cip100" />
               <label for="cip100">CIP-100</label>
             </div>
           </div>
+
           <div class="number-input-container">
-            <label for="input">Weight of Container and Water: </label>
-            <input type="number" id="input" name="input" /> <span>lbs</span>
+            <label for="weightInput">Weight of Container + Water</label>
+            <input type="number" id="weightInput" inputmode="decimal" />
+            <span>lbs</span>
           </div>
         </div>
+
+        <!-- Results -->
         <h2>Results</h2>
         <div class="outputs-container">
-          <div class="a-container">
-            <h3>Weight of Container (Empty):</h3>
-            <p></p>
-          </div>
-          <div class="b-container">
-            <h3>Weight of Container and Water:</h3>
-            <p></p>
-          </div>
-          <div class="c-container">
-            <h3>Weight of Water:</h3>
-            <p></p>
-          </div>
-          <div class="d-container">
-            <h3>Number of Gallons:</h3>
-            <p></p>
-          </div>
-          <div class="e-container">
-            <h3>Chemical:</h3>
-            <p></p>
-          </div>
-          <div class="f-container">
-            <h3>Chemical Addition:</h3>
-            <p></p>
-          </div>
+          <div><h3>Empty Weight</h3><p id="outEmpty"></p></div>
+          <div><h3>Combined Weight</h3><p id="outCombined"></p></div>
+          <div><h3>Water Weight</h3><p id="outWater"></p></div>
+          <div><h3>Gallons</h3><p id="outGallons"></p></div>
+          <div><h3>Chemical</h3><p id="outChemical"></p></div>
+          <div><h3 id="outAdditionLabel">Addition</h3><p id="outAddition"></p></div>
         </div>
+
         <div class="buttons-container">
-          <button class="reset-btn">Reset</button>
-          <button class="calc-btn">Calculate</button>
+          <button id="resetBtn" type="button">Reset</button>
+          <button id="calcBtn" type="button">Calculate</button>
+        </div>
+
+        <!-- Reference Sheet -->
+        <button id="refToggle" type="button">Reference Sheet</button>
+
+        <div class="reference-sheet" id="referenceSheet" hidden>
+          <div class="ref-header">
+            <h2>Reference Sheet</h2>
+            <span class="ref-line" id="refLine"></span>
+          </div>
+
+          <div class="ref-table-wrap">
+            <table class="ref-table">
+              <thead>
+                <tr>
+                  <th>Container</th>
+                  <th>Chemical</th>
+                  <th>Fill / Notes</th>
+                  <th class="num">Addition</th>
+                </tr>
+              </thead>
+              <tbody id="referenceTbody"></tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
+
     <script src="script.js"></script>
   </body>
 </html>
